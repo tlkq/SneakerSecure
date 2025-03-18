@@ -1,1 +1,2 @@
-# SneakerSecure please navigate to master branch
+#Please navigate to master branch to view source code
+
