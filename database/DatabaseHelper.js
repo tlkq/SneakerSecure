@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// A simple database helper that uses AsyncStorage
+
 class DatabaseHelper {
   static DB_PREFIX = 'db_collection_';
   static initialized = false;
   
   static async initDB() {
     try {
-      // Mark as initialized
+
       this.initialized = true;
       console.log("Database helper initialized (using AsyncStorage fallback)");
       return true;
@@ -93,7 +93,7 @@ class DatabaseHelper {
       
       console.log(`Migrating ${asyncStorageData.length} items to collection`);
       
-      // Process items one by one
+
       for (const item of asyncStorageData) {
         if (!item || !item.id) {
           console.warn("Skipping invalid item during migration");
@@ -142,15 +142,15 @@ class DatabaseHelper {
       // Get all sneakers
       const allSneakers = await this.getAllSneakers();
       
-      // Update the specific sneaker
+      //update sneaker
       const updatedSneakers = allSneakers.map(sneaker => 
         sneaker.id === updatedSneaker.id ? updatedSneaker : sneaker
       );
       
-      // Save back to AsyncStorage
+      //resave to async
       await AsyncStorage.setItem('allSneakers', JSON.stringify(updatedSneakers));
       
-      // If the sneaker is in collection, update it there too
+      //if the sneaker is in MyCollection, update it there too
       const itemKey = `${this.DB_PREFIX}${updatedSneaker.id}`;
       const inCollection = await AsyncStorage.getItem(itemKey);
       

@@ -22,25 +22,25 @@ enableScreens();
 
 const migrateData = async () => {
   try {
-    // Check if we've already migrated
+ 
     const hasMigrated = await AsyncStorage.getItem('dbMigrationCompleted');
     if (hasMigrated === 'true') {
       console.log('Migration already completed');
       return;
     }
     
-    // Get existing data from AsyncStorage
+
     const collectionData = await AsyncStorage.getItem('myCollection');
     if (collectionData) {
       try {
         const parsedData = JSON.parse(collectionData);
         console.log(`Found ${parsedData.length} items to migrate`);
         
-        // Migrate to the new format
+
         const success = await DatabaseHelper.migrateFromAsyncStorage(parsedData);
         
         if (success) {
-          // Mark migration as complete
+
           await AsyncStorage.setItem('dbMigrationCompleted', 'true');
           console.log('Migration completed successfully');
         } else {
@@ -51,7 +51,7 @@ const migrateData = async () => {
       }
     } else {
       console.log('No collection data found in AsyncStorage');
-      // Mark as migrated anyway since there's nothing to migrate
+ 
       await AsyncStorage.setItem('dbMigrationCompleted', 'true');
     }
   } catch (error) {
@@ -70,7 +70,7 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ headerShown: false }} // Hide header for HomeScreen
+        options={{ headerShown: false }} 
       />
       <Stack.Screen name="SneakerDetail" component={SneakerDetailScreen} />
       <Stack.Screen name="MyCollection" component={MyCollectionScreen} />
@@ -80,7 +80,7 @@ const MainStackNavigator = () => {
   );
 };
 
-// Loading component to show during initialization
+
 const LoadingScreen = () => (
   <View style={styles.loadingContainer}>
     <ActivityIndicator size="large" color="#FF5733" />
@@ -97,7 +97,7 @@ const App = () => {
       try {
         console.log("Initializing database...");
         await DatabaseHelper.initDB();
-        await initializeSneakerDatabase(); // Initialize sneaker database
+        await initializeSneakerDatabase(); 
         console.log("Database initialized, migrating data...");
         await migrateData();
         console.log("App initialization complete");
@@ -105,7 +105,7 @@ const App = () => {
         console.error("App initialization error:", error);
         setDbError(`Database error: ${error.message}`);
       } finally {
-        // Always set loading to false, even if there was an error
+        
         setIsLoading(false);
       }
     };
@@ -117,14 +117,14 @@ const App = () => {
     return <LoadingScreen />;
   }
 
-  // Show error screen if database failed to initialize
+
   if (dbError) {
     return (
       <View style={styles.errorContainer}>
         <Text style={styles.errorTitle}>Database Error</Text>
         <Text style={styles.errorMessage}>{dbError}</Text>
         <Text style={styles.errorHint}>
-          Try restarting the app. If the problem persists, contact support.
+          Try restarting the app.
         </Text>
       </View>
     );

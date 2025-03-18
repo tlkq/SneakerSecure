@@ -14,7 +14,7 @@ const DebugScreen = () => {
     return String(value);
   };
 
-  // Format different types of results for better display
+
   const formatResult = (result, label) => {
     // Handle arrays specially
     if (Array.isArray(result)) {
@@ -22,7 +22,7 @@ const DebugScreen = () => {
         return `${label}:\n\n[Empty Array]`;
       }
       
-      // Check if array contains objects
+
       if (typeof result[0] === 'object') {
         let output = `${label}: (${result.length} items)\n\n`;
         result.forEach((item, index) => {
@@ -34,16 +34,16 @@ const DebugScreen = () => {
       }
     } 
     
-    // Handle objects
+
     else if (typeof result === 'object' && result !== null) {
       return `${label}:\n\n${formatObjectForDisplay(result)}`;
     }
     
-    // Simple values
+
     return `${label}:\n\n${result}`;
   };
   
-  // Format objects with better readability
+  //format test resukts for display
   const formatObjectForDisplay = (obj) => {
     if (!obj) return 'null';
     
@@ -51,7 +51,7 @@ const DebugScreen = () => {
     Object.keys(obj).forEach(key => {
       const value = obj[key];
       
-      // Format different value types
+
       if (typeof value === 'object' && value !== null) {
         if (Array.isArray(value)) {
           if (value.length === 0) {
@@ -62,11 +62,10 @@ const DebugScreen = () => {
             output += `${key}: [${value.join(', ')}]\n`;
           }
         } else {
-          // For nested objects - show simplified
+
           output += `${key}: {Object}\n`;
         }
       } else {
-        // For primitive values
         output += `${key}: ${value}\n`;
       }
     });
@@ -87,7 +86,7 @@ const DebugScreen = () => {
     }
   };
 
-  // Debug commands
+  //testing commands
   const commands = [
     {
       label: 'View User Collection',
@@ -121,10 +120,10 @@ const DebugScreen = () => {
     {
       label: 'Test UUID Verification (Integration Test)',
       action: async () => {
-        // Import the verification function
+        //import the verification function
         const { checkUUIDVerification } = require('../utils/uuid_database');
         
-        // Test cases with known valid and invalid UUIDs
+        //test cases with known valid and invalid UUIDs
         const testCases = [
           { 
             uuid: "b8141245-3ae5-491d-8b52-429c070b7aef", 
@@ -137,18 +136,18 @@ const DebugScreen = () => {
             expectedResult: true 
           },
           { 
-            uuid: "invalid-uuid-format", 
+            uuid: "invalid-uuid", 
             name: "Fake Product",
             expectedResult: false 
           },
           { 
-            uuid: "aaaa0000-0000-0000-0000-000000000000", 
+            uuid: "0000-0000-0000-0000", 
             name: "Unknown Product",
             expectedResult: false 
           }
         ];
         
-        // Run verification on each test case
+        //run verification on each test case
         const results = testCases.map(test => {
           const actualResult = checkUUIDVerification(test.uuid);
           const passed = actualResult === test.expectedResult;
@@ -163,7 +162,7 @@ const DebugScreen = () => {
           };
         });
         
-        // Calculate test summary
+        //calculate test summary
         const totalTests = results.length;
         const passedTests = results.filter(r => r.passed).length;
         
@@ -178,11 +177,11 @@ const DebugScreen = () => {
       label: 'Test Collection Operations (Data Collection Test)',
       action: async () => {
         try {
-          // Initial setup - get current collection
+          //get current collection
           const collectionJson = await AsyncStorage.getItem('userCollection');
           const initialCollection = collectionJson ? JSON.parse(collectionJson) : [];
           
-          // Get a test sneaker to add
+          //test sneaker to add
           const sneakersJson = await AsyncStorage.getItem('allSneakers');
           if (!sneakersJson) return { error: "No sneakers available to test with" };
           
@@ -196,24 +195,24 @@ const DebugScreen = () => {
             imageUrl: sneakers[0].imageUrl,
           };
           
-          // 1. Test adding to collection
+          //test adding to collection
           let testCollection = [...initialCollection];
           if (!testCollection.some(item => item.id === testSneaker.id)) {
             testCollection.push(testSneaker);
           }
           await AsyncStorage.setItem('userCollection', JSON.stringify(testCollection));
           
-          // 2. Test retrieving the collection
+          //test retrieving the collection
           const updatedCollectionJson = await AsyncStorage.getItem('userCollection');
           const updatedCollection = JSON.parse(updatedCollectionJson);
           
-          // 3. Verify the sneaker was added
+          //verify the sneaker was added
           const sneakerInCollection = updatedCollection.some(item => item.id === testSneaker.id);
           
-          // 4. Test removing from collection (if needed)
+          //test removing from collection
           let removalTestPassed = "Not Tested";
           if (initialCollection.length === updatedCollection.length) {
-            // Sneaker was already in collection, test removal
+            //if sneaker was already in collection, test removal
             const filteredCollection = updatedCollection.filter(item => item.id !== testSneaker.id);
             await AsyncStorage.setItem('userCollection', JSON.stringify(filteredCollection));
             
@@ -221,10 +220,10 @@ const DebugScreen = () => {
             const finalCollection = JSON.parse(finalCollectionJson);
             
             removalTestPassed = finalCollection.every(item => item.id !== testSneaker.id) 
-              ? "✅ PASS" 
-              : "❌ FAIL";
+              ? "PASS" 
+              : "FAIL";
               
-            // Restore original collection
+            //restore original collection
             await AsyncStorage.setItem('userCollection', JSON.stringify(initialCollection));
           }
           
@@ -307,9 +306,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   activeButton: {
-    backgroundColor: '#1B5E20', // Darker green for active button
+    backgroundColor: '#1B5E20', 
     borderWidth: 2,
-    borderColor: '#E8F5E9', // Light green border
+    borderColor: '#E8F5E9', 
   },
   buttonText: {
     color: 'white',

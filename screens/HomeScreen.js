@@ -52,6 +52,7 @@ const HomeScreen = () => {
     navigation.navigate('SneakerDetail', { sneakerData });
   };
 
+  //menu toggle function
   const toggleMenu = () => {
     if (!isMenuOpen) {
       Animated.timing(menuOpen, {
@@ -72,6 +73,8 @@ const HomeScreen = () => {
     }
   };
 
+
+  //logout function leads to login screen
   const handleLogout = async () => {
     try {
       toggleMenu();
@@ -89,12 +92,13 @@ const HomeScreen = () => {
     }
   };
 
+  //swipe left to close menu
   const handlePanGesture = (event) => {
     if (event.nativeEvent.translationX < -50 && isMenuOpen) {
       toggleMenu();
     }
   };
-
+//camera function, incoporates the camera view and the qr scanner
   if (!permission) {
     return <View />;
   }
@@ -134,7 +138,7 @@ const HomeScreen = () => {
             <Icon name="camera-alt" size={30} color="#fff" />
           </TouchableOpacity>
 
-          {/* Simple admin indicator at the bottom */}
+          {/* admin indicator at the bottom */}
           {isAdmin && (
             <View style={styles.adminBanner}>
               <Text style={styles.adminText}>Admin Mode</Text>
@@ -148,7 +152,7 @@ const HomeScreen = () => {
           <Animated.View style={[styles.menu, { left: menuOpen }]}>
             <Text style={styles.menuHeader}>Menu</Text>
             
-            {/* Simplified username display */}
+            {}
             <View style={styles.userSection}>
               <Text style={styles.usernameText}>
                 {username || 'Guest'}
@@ -168,7 +172,7 @@ const HomeScreen = () => {
               <Text style={styles.menuItem}>Account Settings</Text>
             </TouchableOpacity>
             
-            {/* Debug Storage - only visible to admin users */}
+            {/*only visible to admin users*/}
             {isAdmin && (
               <TouchableOpacity onPress={() => {
                 toggleMenu();

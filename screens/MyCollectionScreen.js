@@ -19,7 +19,7 @@ const MyCollectionScreen = () => {
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
-  // Function to load the user's collection
+  //function to load collection from storage
   const loadCollection = async () => {
     try {
       setLoading(true);
@@ -59,7 +59,7 @@ const MyCollectionScreen = () => {
     }
   };
 
-  // Clear the collection (for testing)
+  //clear the collection (testing)
   const clearCollection = async () => {
     try {
       await AsyncStorage.removeItem('userCollection');
@@ -70,18 +70,18 @@ const MyCollectionScreen = () => {
     }
   };
 
-  // Copy ID to clipboard
+  //copy ID to clipboard
   const copyIdToClipboard = (id) => {
     Clipboard.setString(id);
     Alert.alert('Copied', 'ID copied to clipboard');
   };
 
-  // Load collection when the screen comes into focus
+  //load collection when the screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
       loadCollection();
-      debugViewCollection(); // Debug call
-      return () => {}; // Cleanup if needed
+      debugViewCollection();
+      return () => {}; 
     }, [])
   );
 
@@ -114,7 +114,7 @@ const MyCollectionScreen = () => {
       <View style={styles.sneakerInfo}>
         <Text style={styles.sneakerName}>{item.name}</Text>
         
-        {/* Unique ID display with copy function */}
+        {/*UUID display*/}
         <TouchableOpacity 
           onPress={() => copyIdToClipboard(item.id)}
           style={styles.idContainer}
@@ -132,7 +132,7 @@ const MyCollectionScreen = () => {
           {item.description}
         </Text>
         
-        {/* Display manufacture number if available */}
+        {/*display manufacture number*/}
         {item.manufactureNumber && (
           <Text style={styles.manufactureNumber}>
             {item.manufactureNumber}
@@ -163,7 +163,7 @@ const MyCollectionScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Collection</Text>
         
-        {/* Debug buttons - remove in production */}
+        {/* debug buttons*/}
         <View style={styles.debugButtons}>
           <TouchableOpacity style={styles.debugButton} onPress={loadCollection}>
             <Text style={styles.debugButtonText}>Reload</Text>
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
-  // New ID display styles
+
   idContainer: {
     flexDirection: 'row',
     alignItems: 'center',

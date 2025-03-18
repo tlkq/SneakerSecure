@@ -1,9 +1,8 @@
-// React Native compatible version
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v4 as uuidv4 } from 'uuid';
-import 'react-native-get-random-values'; // Required for uuid to work properly in React Native
+import 'react-native-get-random-values'; 
 
-// Pre-defined sneakers data
+//pre-defined sneakers data
 const sneakers = [
   {
     name: "Air Jordan 1",
@@ -49,13 +48,13 @@ const sneakers = [
   }
 ];
 
-// Function to generate random manufacture number
+//random manufacture number
 function getRandomManufactureNumber() {
   const edition = Math.floor(Math.random() * 100) + 1;
   return `Limited Edition ${edition}/100 Release`;
 }
 
-// Function to prepare sneaker data with IDs and manufacture numbers
+//prepare sneaker data with IDs and manufacture numbers
 function prepareSneakerData() {
   return sneakers.map(sneaker => ({
     id: uuidv4(),
@@ -64,16 +63,16 @@ function prepareSneakerData() {
   }));
 }
 
-// Initialize sneaker database in AsyncStorage
+//initialize sneaker database in AsyncStorage
 const initializeSneakerDatabase = async () => {
   try {
-    // Check if sneakers are already stored
+    //check if sneakers are already stored
     const existingSneakers = await AsyncStorage.getItem('allSneakers');
     if (!existingSneakers) {
-      // Generate prepared sneaker data with IDs and manufacture numbers
+      //generate prepared sneaker data with IDs and manufacture numbers
       const preparedSneakers = prepareSneakerData();
       
-      // Store in AsyncStorage
+      //store in AsyncStorage
       await AsyncStorage.setItem('allSneakers', JSON.stringify(preparedSneakers));
       console.log('Initialized sneaker database with prepared data');
     } else {
@@ -86,14 +85,13 @@ const initializeSneakerDatabase = async () => {
   }
 };
 
-// Get all sneakers from storage
+//get all sneakers from storage
 const getAllSneakers = async () => {
   try {
     const storedSneakers = await AsyncStorage.getItem('allSneakers');
     if (storedSneakers) {
       return JSON.parse(storedSneakers);
     }
-    // If not found, initialize and then return
     await initializeSneakerDatabase();
     const freshData = await AsyncStorage.getItem('allSneakers');
     return freshData ? JSON.parse(freshData) : [];
@@ -103,7 +101,7 @@ const getAllSneakers = async () => {
   }
 };
 
-// Get sneaker by ID
+//get sneaker by ID
 const getSneakerById = async (id) => {
   try {
     const allSneakers = await getAllSneakers();
@@ -114,7 +112,7 @@ const getSneakerById = async (id) => {
   }
 };
 
-// Update a sneaker in the database
+//update a sneaker in the database
 const updateSneaker = async (updatedSneaker) => {
   try {
     if (!updatedSneaker || !updatedSneaker.id) {
@@ -122,7 +120,7 @@ const updateSneaker = async (updatedSneaker) => {
       return false;
     }
 
-    // Get current sneakers
+
     const allSneakersStr = await AsyncStorage.getItem('allSneakers');
     if (!allSneakersStr) {
       console.error('No sneakers found in database');
@@ -131,12 +129,12 @@ const updateSneaker = async (updatedSneaker) => {
     
     const allSneakers = JSON.parse(allSneakersStr);
     
-    // Find and update the matching sneaker
+
     const updatedSneakers = allSneakers.map(sneaker => 
       sneaker.id === updatedSneaker.id ? updatedSneaker : sneaker
     );
     
-    // Save back to storage
+
     await AsyncStorage.setItem('allSneakers', JSON.stringify(updatedSneakers));
     console.log('Sneaker updated successfully in QRGen data');
     return true;
@@ -146,7 +144,7 @@ const updateSneaker = async (updatedSneaker) => {
   }
 };
 
-// Export functions for use in the app
+
 export {
   sneakers,
   initializeSneakerDatabase,

@@ -15,17 +15,14 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VerifiedBadge from '../components/VerifiedBadge';
-import UnverifiedBadge from '../components/UnverifiedBadge';
-import { updateSneaker, getAllSneakers } from '../QRGen'; // Import from QRGen.js
-import { checkUUIDVerification } from '../utils/uuid_database'; // Import UUID verification function
+import { updateSneaker, getAllSneakers } from '../QRGen'; 
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const SneakerDetailScreen = ({ route, navigation }) => {
-  // Get the initial sneaker data safely
   const initialSneakerData = route.params?.sneakerData || {};
   
-  // State variables
+ 
   const [sneakerData, setSneakerData] = useState(initialSneakerData);
   const [gallery, setGallery] = useState(initialSneakerData?.gallery || []);
   const [scanHistory, setScanHistory] = useState(initialSneakerData?.history || []);
@@ -33,11 +30,10 @@ const SneakerDetailScreen = ({ route, navigation }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editedSneaker, setEditedSneaker] = useState({...initialSneakerData});
-  const [isVerified, setIsVerified] = useState(false);
   
   const flatListRef = useRef(null);
 
-  // Check if user is admin
+  //admin check
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
@@ -51,23 +47,13 @@ const SneakerDetailScreen = ({ route, navigation }) => {
     checkAdminStatus();
   }, []);
 
-  // Verify UUID against database
-  useEffect(() => {
-    if (sneakerData && sneakerData.id) {
-      const verification = checkUUIDVerification(sneakerData.id);
-      setIsVerified(verification);
-    } else {
-      setIsVerified(false);
-    }
-  }, [sneakerData]);
-
   const addToCollection = async () => {
     try {
-      // Save to user's collection
+      //save to collection  
       const collection = await AsyncStorage.getItem('userCollection') || '[]';
       const userCollection = JSON.parse(collection);
       
-      // Check if already in collection
+      //check if already in collection
       if (!userCollection.some(item => item.id === sneakerData.id)) {
         userCollection.push({
           id: sneakerData.id,
@@ -88,14 +74,13 @@ const SneakerDetailScreen = ({ route, navigation }) => {
   };
 
   const handleEditSneaker = () => {
-    // Create a deep copy of the sneaker data for editing
+    //create a copy of the sneaker data for editing
     setEditedSneaker({
       id: sneakerData?.id || '',
       name: sneakerData?.name || '',
       description: sneakerData?.description || '',
       manufactureNumber: sneakerData?.manufactureNumber || '',
       imageUrl: sneakerData?.imageUrl || '',
-      // Include gallery and history to ensure they're preserved
       gallery: [...(sneakerData?.gallery || [])],
       history: [...(sneakerData?.history || [])]
     });
@@ -115,45 +100,44 @@ const SneakerDetailScreen = ({ route, navigation }) => {
 
   const handleSaveEdit = async () => {
     try {
-      // Validate required fields
+      //validate required fields
       if (!editedSneaker.name || !editedSneaker.description) {
         Alert.alert('Validation Error', 'Name and description are required fields');
         return;
       }
 
-      // Create a complete updated sneaker object
+      //create a complete updated sneaker object
       const updatedSneaker = {
         ...sneakerData,
         name: editedSneaker.name,
         description: editedSneaker.description,
         manufactureNumber: editedSneaker.manufactureNumber,
         imageUrl: editedSneaker.imageUrl,
-        // Preserve gallery and history
+        //preserve gallery and history
         gallery: sneakerData.gallery || [],
         history: sneakerData.history || []
       };
 
       console.log("Saving updated sneaker:", JSON.stringify(updatedSneaker));
 
-      // First update local state for immediate UI response
       setSneakerData(updatedSneaker);
       setGallery(updatedSneaker.gallery);
       setScanHistory(updatedSneaker.history);
 
-      // Update the data in QRGen.js through its exported updateSneaker function
+      //update the data in QRGen.js 
       const updateSuccess = await updateSneaker(updatedSneaker);
       
       if (!updateSuccess) {
         throw new Error("Failed to update sneaker data");
       }
 
-      // Close the editing modal
+      
       setEditing(false);
       
-      // Show success message
+      
       Alert.alert('Success', 'Sneaker details updated successfully!');
       
-      // Refresh the list of all sneakers to ensure consistency
+      //refresh list
       const refreshedSneakers = await getAllSneakers();
       console.log('Successfully updated sneakers database');
       
@@ -163,7 +147,7 @@ const SneakerDetailScreen = ({ route, navigation }) => {
     }
   };
 
-  // Edit Modal Component
+  //edit ui
   const EditModal = () => (
     <Modal
       visible={editing}
@@ -232,7 +216,7 @@ const SneakerDetailScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {/* Sneaker Images Gallery */}
+        {/*images gallery */}
         <View style={styles.galleryContainer}>
           <FlatList
             ref={flatListRef}
@@ -256,7 +240,7 @@ const SneakerDetailScreen = ({ route, navigation }) => {
             )}
           />
           
-          {/* Pagination Dots */}
+          {/*pagination dots*/}
           <View style={styles.paginationContainer}>
             {(gallery.length > 0 ? gallery : [sneakerData?.imageUrl]).map((_, index) => (
               <View
@@ -270,11 +254,11 @@ const SneakerDetailScreen = ({ route, navigation }) => {
           </View>
         </View>
 
-        {/* Sneaker Details */}
+        {/*sneaker details */}
         <View style={styles.detailsContainer}>
           <View style={styles.headerRow}>
             <Text style={styles.sneakerName}>{sneakerData?.name}</Text>
-            {isVerified ? <VerifiedBadge /> : <UnverifiedBadge />}
+            <VerifiedBadge />
           </View>
           
           <Text style={styles.manufactureNumber}>
@@ -283,17 +267,7 @@ const SneakerDetailScreen = ({ route, navigation }) => {
           
           <Text style={styles.description}>{sneakerData?.description}</Text>
           
-          {/* UUID Information */}
-          <View style={styles.uuidContainer}>
-            <Text style={styles.uuidLabel}>UUID:</Text>
-            <Text style={styles.uuidText}>{sneakerData?.id || 'N/A'}</Text>
-            <Text style={[styles.verificationStatus, 
-              { color: isVerified ? '#2E7D32' : '#C62828' }]}>
-              {isVerified ? '(Verified)' : '(Unverified)'}
-            </Text>
-          </View>
-
-          {/* Ownership History */}
+          {/*ownership */}
           <Text style={styles.sectionTitle}>Ownership History</Text>
           {scanHistory && scanHistory.length > 0 ? (
             scanHistory.map((record, index) => (
@@ -306,7 +280,7 @@ const SneakerDetailScreen = ({ route, navigation }) => {
             <Text style={styles.emptyText}>No ownership history available</Text>
           )}
           
-          {/* Action Buttons */}
+          {/*functions */}
           <View style={styles.actionButtons}>
             <TouchableOpacity
               style={styles.actionButton}
@@ -327,7 +301,7 @@ const SneakerDetailScreen = ({ route, navigation }) => {
         </View>
       </ScrollView>
       
-      {/* Edit Modal */}
+      {}
       {editing && <EditModal />}
     </SafeAreaView>
   );
@@ -437,7 +411,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  // Modal styles
+
   modalContainer: {
     flex: 1,
     backgroundColor: 'white',
@@ -490,29 +464,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
-  },
-  uuidContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 10,
-    flexWrap: 'wrap',
-  },
-  uuidLabel: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#333',
-    marginRight: 5,
-  },
-  uuidText: {
-    fontSize: 14,
-    color: '#666',
-    fontFamily: 'monospace',
-    marginRight: 5,
-  },
-  verificationStatus: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
   },
 });
 

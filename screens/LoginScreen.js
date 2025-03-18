@@ -18,10 +18,10 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     //login logic
 
-    // Store username in AsyncStorage
+  // save username to async storage for admin check
     await AsyncStorage.setItem('username', username);
 
-    // Navigate to Home
+    //navigate to home screen
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

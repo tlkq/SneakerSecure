@@ -10,7 +10,7 @@ export default function SignupScreen() {
       <Text style={styles.title}>Sign Up</Text>
       <Text style={styles.text}>This feature is under development.</Text>
       
-      {/* Back Button */}
+      {}
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
