@@ -1,0 +1,74 @@
+[
+  {
+    "id": "b8141245-3ae5-491d-8b52-429c070b7aef",
+    "manufactureNumber": "Limited Edition 2/100 Release",
+    "name": "Air Jordan 1",
+    "description": "Classic basketball sneaker",
+    "imageUrl": "https://m.media-amazon.com/images/I/71n-Dh2kDXL._AC_SX575_.jpg",
+    "gallery": [
+      "https://m.media-amazon.com/images/I/71pixFge+uL._AC_SX575_.jpg",
+      "https://m.media-amazon.com/images/I/71n-Dh2kDXL._AC_SX575_.jpg",
+      "https://m.media-amazon.com/images/I/71Nq2C31XrL._AC_SX575_.jpg"
+    ],
+    "history": [
+      {
+        "id": "1",
+        "name": "John Doe",
+        "date": "2025-03-01"
+      },
+      {
+        "id": "2",
+        "name": "Jane Smith",
+        "date": "2025-03-05"
+      }
+    ]
+  },
+  {
+    "id": "d3b59a87-86f4-473a-8a96-78f5ccee853b",
+    "manufactureNumber": "Limited Edition 44/100 Release",
+    "name": "Nike Air Max 90",
+    "description": "Iconic running shoe",
+    "imageUrl": "https://dks.scene7.com/is/image/GolfGalaxy/19NIKMRMX90WHTGRYMNS_Gry_Wht_Smoke_Gry_Blk?qlt=70&wid=500&fmt=webp&op_sharpen=1",
+    "gallery": [
+      "https://dks.scene7.com/is/image/GolfGalaxy/19NIKMRMX90WHTGRYMNS_Gry_Wht_Smoke_Gry_Blk?qlt=70&wid=500&fmt=webp&op_sharpen=1",
+      "https://dks.scene7.com/is/image/GolfGalaxy/CN8490002_GryWhtSmokeGryBlk_SL?qlt=70&wid=500&fmt=webp&op_sharpen=1",
+      "https://dks.scene7.com/is/image/GolfGalaxy/CN8490002_GryWhtSmokeGryBlk_INS?qlt=70&wid=500&fmt=webp&op_sharpen=1"
+    ],
+    "history": [
+      {
+        "id": "3",
+        "name": "Josh Johnson",
+        "date": "2025-03-10"
+      },
+      {
+        "id": "4",
+        "name": "Bob Brown",
+        "date": "2025-03-15"
+      }
+    ]
+  },
+  {
+    "id": "84dd9fda-329c-462c-8461-daa9fd93df37",
+    "manufactureNumber": "Limited Edition 1/100 Release",
+    "name": "Adidas Yeezy Boost 350",
+    "description": "Popular collector sneaker",
+    "imageUrl": "https://m.media-amazon.com/images/I/41xCjNHrYHL._AC_SY695_.jpg",
+    "gallery": [
+      "https://m.media-amazon.com/images/I/514b5as3MSL._AC_SY695_.jpg",
+      "https://m.media-amazon.com/images/I/51bV6jB1RSL._AC_SY695_.jpg",
+      "https://m.media-amazon.com/images/I/51bV6jB1RSL._AC_SY695_.jpg"
+    ],
+    "history": [
+      {
+        "id": "5",
+        "name": "Jane Doe",
+        "date": "2025-03-20"
+      },
+      {
+        "id": "6",
+        "name": "John Smith",
+        "date": "2025-03-25"
+      }
+    ]
+  }
+]
