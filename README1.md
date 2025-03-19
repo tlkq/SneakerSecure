@@ -12,7 +12,7 @@ Installation:
    cd SneakerSecure
 2. Install Dependencies:
    npm install --legacy-peer-deps
-3. Start Expo Server
+3. Start Expo Server:
    npx expo start
    (if issues use: npx expo start --tunnel)
 
